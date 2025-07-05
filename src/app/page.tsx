@@ -1,11 +1,18 @@
 "use client";
 
 // import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { DockviewReact, DockviewApi, DockviewReadyEvent } from "dockview-react";
 import { PriceChartPanel } from "./components/PriceChartPanel";
 import "dockview/dist/styles/dockview.css";
 import React, { useRef } from "react";
 
+// const LiveTradesPanel = dynamic(
+//   () => import("./components/LiveTradesPanelClient"),
+//   {
+//     ssr: false,
+//   }
+// );
 // const LiveTradesPanel = dynamic(
 //   () => import("./components/LiveTradesPanelClient"),
 //   {
@@ -35,6 +42,7 @@ export default function HomePage() {
     <DockviewReact
       components={{
         // "live-trades": (props) => <LiveTradesPanel {...props} />,
+        // "live-trades": <LiveTradesPanel />,
         "price-chart": PriceChartPanel,
       }}
       onReady={onReady}
