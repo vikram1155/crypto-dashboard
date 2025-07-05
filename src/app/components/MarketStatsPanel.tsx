@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { IDockviewPanelProps } from "dockview-core";
 import { startMockPriceFeed, PriceDataPoint } from "@/lib/mockData";
 
@@ -13,7 +13,7 @@ interface CoinStats {
   [symbol: string]: MarketStats;
 }
 
-const MarketStatsPanel: React.FC<IDockviewPanelProps> = React.memo((props) => {
+const MarketStatsPanel: React.FC<IDockviewPanelProps> = memo((props) => {
   console.log("MarketStatsPanel props:", props);
 
   const [stats, setStats] = useState<CoinStats>({
@@ -74,5 +74,7 @@ const MarketStatsPanel: React.FC<IDockviewPanelProps> = React.memo((props) => {
     </div>
   );
 });
+
+MarketStatsPanel.displayName = "MarketStatsPanel";
 
 export default MarketStatsPanel;

@@ -9,14 +9,17 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = memo((props) => {
     <div
       style={{
         color: "#fff",
+        background: "#1a1a1a",
         height: "100%",
         padding: "20px",
       }}
     >
-      Live trades
+      live trades
     </div>
   );
 });
+
+LiveTradesPanelClient.displayName = "LiveTradesPanelClient";
 
 export default LiveTradesPanelClient;
 
