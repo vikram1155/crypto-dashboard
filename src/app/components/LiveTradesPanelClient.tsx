@@ -66,6 +66,18 @@
 
 // export default LiveTradesPanelClient;
 
-export default function LiveTradesPanelClient() {
+import { DockviewPanelApi, DockviewApi } from "dockview-react";
+
+interface LiveTradesPanelProps {
+  api: DockviewPanelApi;
+  containerApi: DockviewApi;
+  params: any;
+}
+
+export default function LiveTradesPanel({
+  api,
+  containerApi,
+  params,
+}: LiveTradesPanelProps) {
   return <p style={{ color: "#fff" }}>Live Trades Panel</p>;
 }
