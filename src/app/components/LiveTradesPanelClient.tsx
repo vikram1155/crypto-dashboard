@@ -66,22 +66,27 @@
 
 // export default LiveTradesPanelClient;
 
-export default function LiveTradesPanelClient() {
-  return <p style={{ color: "#fff" }}>Live Trades Panel</p>;
-}
-
-// import { DockviewPanelApi, DockviewApi } from "dockview-react";
-
-// interface LiveTradesPanelProps {
-//   api: DockviewPanelApi;
-//   containerApi: DockviewApi;
-//   params: any;
-// }
-
-// export default function LiveTradesPanel({
-//   api,
-//   containerApi,
-//   params,
-// }: LiveTradesPanelProps) {
+// export default function LiveTradesPanelClient() {
 //   return <p style={{ color: "#fff" }}>Live Trades Panel</p>;
 // }
+
+import { DockviewPanelApi, DockviewApi } from "dockview-react";
+
+interface LiveTradesPanelProps {
+  api: DockviewPanelApi;
+  containerApi: DockviewApi;
+  params: any;
+}
+
+export default function LiveTradesPanelClient({
+  api,
+  containerApi,
+  params,
+}: LiveTradesPanelProps) {
+  console.log("checkers", api, containerApi, params);
+  return (
+    <>
+      <p style={{ color: "#fff" }}>Live Trades Panel</p>
+    </>
+  );
+}
