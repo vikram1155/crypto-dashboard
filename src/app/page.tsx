@@ -1,13 +1,18 @@
 "use client";
-import React, { useRef } from "react";
-import { DockviewReact, DockviewReadyEvent } from "dockview-react";
+import React from "react";
+import {
+  DockviewReact,
+  DockviewReadyEvent,
+  // IDockviewGroupPanelPublic,
+} from "dockview-react";
+
 import "dockview-core/dist/styles/dockview.css";
 import { PriceChartPanel } from "./components/PriceChartPanel";
 import LiveTradesPanelClient from "./components/LiveTradesPanelClient";
 import MarketStatsPanel from "./components/MarketStatsPanel";
 
 const DockviewLayout: React.FC = () => {
-  const dockviewRef = useRef<any>(null);
+  // const dockviewRef = useRef<IDockviewGroupPanelPublic>(null);
 
   const onReady = (event: DockviewReadyEvent) => {
     const { api } = event;
@@ -33,7 +38,6 @@ const DockviewLayout: React.FC = () => {
 
   return (
     <DockviewReact
-      ref={dockviewRef}
       onReady={onReady}
       components={{ PriceChartPanel, LiveTradesPanelClient, MarketStatsPanel }}
       className="dockview-theme-dark"
