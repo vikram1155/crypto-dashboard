@@ -65,3 +65,7 @@
 // };
 
 // export default LiveTradesPanelClient;
+
+export default function LiveTradesPanelClient() {
+  return <p style={{ color: "#fff" }}>Live Trades Panel</p>;
+}
