@@ -3,9 +3,10 @@ import React, { useEffect, useRef } from "react";
 import { IDockviewPanelProps } from "dockview-core";
 import "@finos/perspective-viewer";
 import "@finos/perspective-viewer-datagrid";
+import { Table } from "@finos/perspective";
 
 interface PerspectiveViewerElement extends HTMLElement {
-  load: (table: any) => void;
+  load: (table: Table) => void;
   setAttribute: (name: string, value: string) => void;
   delete: () => void;
 }
@@ -17,7 +18,7 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
     const el = viewerRef.current;
     if (!el || !window.perspective) return;
 
-    let table: any;
+    let table: Table | null = null;
     let socket: WebSocket | null = null;
 
     const setup = async () => {
@@ -38,7 +39,7 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
 
       socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
-        table.update([
+        table!.update([
           {
             price: parseFloat(msg.p),
             quantity: parseFloat(msg.q),
@@ -58,6 +59,7 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
       if (viewerRef.current) viewerRef.current.delete();
     };
   }, []);
+
   // @ts-expect-error
   return <perspective-viewer ref={viewerRef} />;
 };
