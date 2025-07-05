@@ -1,44 +1,44 @@
 "use client";
-
-// import dynamic from "next/dynamic";
-import { DockviewReact, DockviewApi, DockviewReadyEvent } from "dockview-react";
-import { PriceChartPanel } from "./components/PriceChartPanel";
-import "dockview/dist/styles/dockview.css";
 import React, { useRef } from "react";
+import { DockviewReact, DockviewReadyEvent } from "dockview-react";
+import "dockview-core/dist/styles/dockview.css";
+import { PriceChartPanel } from "./components/PriceChartPanel";
+import LiveTradesPanelClient from "./components/LiveTradesPanelClient";
+import MarketStatsPanel from "./components/MarketStatsPanel";
 
-// const LiveTradesPanel = dynamic(
-//   () => import("./components/LiveTradesPanelClient"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-export default function HomePage() {
-  const dockviewRef = useRef<DockviewApi | null>(null);
+const DockviewLayout: React.FC = () => {
+  const dockviewRef = useRef<any>(null);
 
   const onReady = (event: DockviewReadyEvent) => {
-    dockviewRef.current = event.api;
-
-    // event.api.addPanel({
-    //   id: "trades",
-    //   title: "Live Trades",
-    //   component: "live-trades",
-    // });
-    event.api.addPanel({
-      id: "chart",
+    const { api } = event;
+    api.addPanel({
+      id: "priceChart",
+      component: "PriceChartPanel",
       title: "Price Chart",
-      component: "price-chart",
+      position: { referencePanel: undefined, direction: "within" },
+    });
+    api.addPanel({
+      id: "liveTrades",
+      component: "LiveTradesPanelClient",
+      title: "Live Trades",
+      position: { referencePanel: "priceChart", direction: "below" },
+    });
+    api.addPanel({
+      id: "marketStats",
+      component: "MarketStatsPanel",
+      title: "Market Stats",
+      position: { referencePanel: "priceChart", direction: "right" },
     });
   };
 
   return (
     <DockviewReact
-      components={{
-        // "live-trades": (props) => <LiveTradesPanel {...props} />,
-        "price-chart": PriceChartPanel,
-      }}
+      ref={dockviewRef}
       onReady={onReady}
-      className="dockview-theme-abyss"
+      components={{ PriceChartPanel, LiveTradesPanelClient, MarketStatsPanel }}
+      className="dockview-theme-dark"
     />
   );
-}
+};
+
+export default DockviewLayout;
