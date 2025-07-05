@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { DockviewReact, DockviewApi, DockviewReadyEvent } from "dockview-react";
 import { PriceChartPanel } from "../components/PriceChartPanel";
 import "dockview/dist/styles/dockview.css";
-import LiveTradesPanelClient from "../components/LiveTradesPanelClient";
+// import LiveTradesPanelClient from "../components/LiveTradesPanelClient";
 
 const Home = () => {
   const dockviewRef = useRef<DockviewApi | null>(null);
@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <DockviewReact
       components={{
-        "live-trades": LiveTradesPanelClient,
+        // "live-trades": LiveTradesPanelClient,
         "price-chart": PriceChartPanel,
       }}
       onReady={onReady}
