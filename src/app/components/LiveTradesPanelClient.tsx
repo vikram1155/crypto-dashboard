@@ -4,11 +4,18 @@ import { IDockviewPanelProps } from "dockview-core";
 import "@finos/perspective-viewer";
 import "@finos/perspective-viewer-datagrid";
 
+interface PerspectiveViewerElement extends HTMLElement {
+  load: (table: any) => void;
+  setAttribute: (name: string, value: string) => void;
+  delete: () => void;
+}
+
 const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
-  const viewerRef = useRef<any>(null);
+  const viewerRef = useRef<PerspectiveViewerElement | null>(null);
 
   useEffect(() => {
     const el = viewerRef.current;
+    if (!el || !window.perspective) return;
 
     const setup = async () => {
       const table = await (
@@ -39,10 +46,22 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
         ]);
       };
 
-      return () => socket.close();
+      return () => {
+        socket.close();
+        table.delete();
+        el.delete();
+      };
     };
 
-    setup();
+    setup().catch((error) => {
+      console.error("Error setting up Perspective viewer:", error);
+    });
+
+    return () => {
+      if (viewerRef.current) {
+        viewerRef.current.delete();
+      }
+    };
   }, []);
 
   // @ts-ignore

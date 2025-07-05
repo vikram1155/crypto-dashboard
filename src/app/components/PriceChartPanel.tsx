@@ -26,8 +26,14 @@ ChartJS.register(
   Legend
 );
 
+interface PriceData {
+  labels: Date[];
+  prices: number[];
+  volumes: number[];
+}
+
 export const PriceChartPanel: React.FC<IDockviewPanelProps> = () => {
-  const [priceData, setPriceData] = useState<any>({
+  const [priceData, setPriceData] = useState<PriceData>({
     labels: [],
     prices: [],
     volumes: [],
@@ -44,7 +50,7 @@ export const PriceChartPanel: React.FC<IDockviewPanelProps> = () => {
       const time = new Date(k.t);
       const price = parseFloat(k.c);
       const volume = parseFloat(k.v);
-      setPriceData((prev: any) => ({
+      setPriceData((prev: PriceData) => ({
         labels: [...prev.labels.slice(-49), time],
         prices: [...prev.prices.slice(-49), price],
         volumes: [...prev.volumes.slice(-49), volume],
