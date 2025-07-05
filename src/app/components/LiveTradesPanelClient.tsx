@@ -1,3 +1,25 @@
+"use client";
+import React, { memo } from "react";
+import { IDockviewPanelProps } from "dockview-core";
+
+const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = memo((props) => {
+  console.log("LiveTradesPanelClient props:", props);
+
+  return (
+    <div
+      style={{
+        color: "#fff",
+        height: "100%",
+        padding: "20px",
+      }}
+    >
+      Live trades
+    </div>
+  );
+});
+
+export default LiveTradesPanelClient;
+
 // "use client";
 // import React, { useEffect, useRef } from "react";
 // import { IDockviewPanelProps } from "dockview-core";
