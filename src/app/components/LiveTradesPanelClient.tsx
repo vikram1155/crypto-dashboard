@@ -17,13 +17,16 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
     const el = viewerRef.current;
     if (!el || !window.perspective) return;
 
+    let table: any;
+    let socket: WebSocket | null = null;
+
     const setup = async () => {
-      const table = await (
-        await window.perspective.worker()
-      ).table({
-        price: [],
-        quantity: [],
-        timestamp: [],
+      // Initialize Perspective worker and table
+      const worker = window.perspective.worker();
+      table = await worker.table({
+        price: "float",
+        quantity: "float",
+        timestamp: "datetime",
       });
 
       el.load(table);
@@ -31,9 +34,7 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
       el.setAttribute("columns", '["price", "quantity"]');
       el.setAttribute("sort", '[["timestamp", "desc"]]');
 
-      const socket = new WebSocket(
-        "wss://stream.binance.com:9443/ws/btcusdt@trade"
-      );
+      socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
 
       socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
@@ -45,12 +46,6 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
           },
         ]);
       };
-
-      return () => {
-        socket.close();
-        table.delete();
-        el.delete();
-      };
     };
 
     setup().catch((error) => {
@@ -58,14 +53,13 @@ const LiveTradesPanelClient: React.FC<IDockviewPanelProps> = () => {
     });
 
     return () => {
-      if (viewerRef.current) {
-        viewerRef.current.delete();
-      }
+      if (socket) socket.close();
+      if (table) table.delete();
+      if (viewerRef.current) viewerRef.current.delete();
     };
   }, []);
-
-  // @ts-ignore
-  return <perspective-viewer ref={viewerRef}></perspective-viewer>;
+  // @ts-expect-error
+  return <perspective-viewer ref={viewerRef} />;
 };
 
 export default LiveTradesPanelClient;
